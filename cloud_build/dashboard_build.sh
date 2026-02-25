@@ -5,12 +5,10 @@
 
 # Build flutter build dashboard.
 
-pushd dashboard > /dev/null
+pushd app/dashboard > /dev/null
 set -e
 rm -rf build
-flutter channel stable
-flutter upgrade
-flutter doctor
+flutter doctor -v
 flutter pub get
 flutter config --enable-web
 flutter build web --source-maps
