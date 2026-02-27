@@ -1466,15 +1466,20 @@ $stacktrace
     // We're doing a transactional update, which could fail if multiple tasks
     // are running at the same time so retry a sane amount of times before
     // giving up.
-    const r = RetryOptions(maxAttempts: 3, delayFactor: Duration(seconds: 5));
+    const r = RetryOptions(maxAttempts: 5, delayFactor: Duration(seconds: 5));
 
-    return r.retry(() {
-      return UnifiedCheckRun.markConclusion(
-        firestoreService: _firestore,
-        guardId: guardId,
-        state: state,
-      );
-    });
+    try {
+      return await r.retry(() {
+        return UnifiedCheckRun.markConclusion(
+          firestoreService: _firestore,
+          guardId: guardId,
+          state: state,
+        );
+      });
+    } on Exception catch (e, s) {
+      log.warn('$logCrumb: Failed to mark unified check run conclusion', e, s);
+      rethrow;
+    }
   }
 
   /// Reschedules a failed build using a [CheckRunEvent]. The CheckRunEvent is
