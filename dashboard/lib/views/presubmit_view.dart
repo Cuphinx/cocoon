@@ -423,10 +423,10 @@ class _LogViewerPaneState extends State<_LogViewerPane> {
             ),
             Padding(
               padding: const EdgeInsets.all(24.0),
-              child: InkWell(
-                onTap: selectedCheck.buildNumber == null
+              child: ElevatedButton(
+                onPressed: selectedCheck.buildNumber == null
                     ? null
-                    : () => launchUrl(
+                    : () async => await launchUrl(
                         Uri.parse(
                           generateBuildLogUrl(
                             buildName: selectedCheck.buildName,
