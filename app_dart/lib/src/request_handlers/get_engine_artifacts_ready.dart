@@ -10,6 +10,7 @@ import '../../cocoon_service.dart';
 import '../model/firestore/base.dart';
 import '../model/firestore/ci_staging.dart';
 import '../request_handling/exceptions.dart';
+import '../request_handling/public_api_request_handler.dart';
 
 /// Query if engine artifacts are ready for a given commit SHA.
 ///
@@ -25,7 +26,7 @@ import '../request_handling/exceptions.dart';
 /// - `{status: "complete"}`; the engine artifacts were built and uploaded
 /// - `{status: "pending"}`; the engine artifacts are in the progress of being built
 /// - `{status: "failed"}`; the engine artifacts will not be uploaded as there was a failure building the engine
-final class GetEngineArtifactsReady extends RequestHandler {
+final class GetEngineArtifactsReady extends PublicApiRequestHandler {
   const GetEngineArtifactsReady({
     required super.config,
     required FirestoreService firestore,

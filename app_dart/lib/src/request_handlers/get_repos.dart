@@ -6,12 +6,13 @@ import 'dart:async';
 
 import 'package:github/github.dart';
 
+import '../request_handling/public_api_request_handler.dart';
 import '../request_handling/request_handler.dart';
 import '../request_handling/response.dart';
 import '../service/config.dart';
 
 /// Returns [Config.supportedRepos] as a list of repo names.
-final class GetRepos extends RequestHandler {
+final class GetRepos extends PublicApiRequestHandler {
   const GetRepos({required super.config});
 
   @override

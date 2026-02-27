@@ -32,19 +32,33 @@ All tasks follow a strict lifecycle:
    - With the safety of passing tests, refactor the implementation code and the test code to improve clarity, remove duplication, and enhance performance without changing the external behavior.
    - Rerun tests to ensure they still pass after refactoring.
 
-6. **Verify Coverage:** Run coverage reports using the project's chosen tools. For example, in a Python project, this might look like:
+6. **Verify Coverage:** Run coverage reports using the project's chosen tools. For example, in a Dart project, this might look like:
    ```bash
-   pytest --cov=app --cov-report=html
+   dart test --coverage-path coverage/lcov.info
+   genhtml coverage/lcov.info -o coverage/html
    ```
    Target: >95% coverage for new code. The specific tools and commands will vary by language and framework.
 
-7. **Document Deviations:** If implementation differs from tech stack:
+7. **Verify Format:** Run format verification tool. For example, in a Dart and Flutter project, this might look like:
+   ```bash
+   dart format --set-exit-if-changed .
+   ```
+   Target: No errors or warnings.
+
+8. **Perform Static Analysis:** Run static analysis on Dart code to find potential errors, warnings, and style issues. For example, in a Dart and Flutter project, this might look like:
+   ```bash
+   dart analyze --fatal-infos .
+   ```
+   Target: No errors or warnings.
+
+
+9. **Document Deviations:** If implementation differs from tech stack:
    - **STOP** implementation
    - Update `tech-stack.md` with new design
    - Add dated note explaining the change
    - Resume implementation
 
-8. **Record Task Summary in Commit Message:**
+10. **Record Task Summary in Commit Message:**
    - Stage all code changes related to the task.
    - Propose a clear, concise commit message that includes a detailed summary of the completed task. This should include the task name, a summary of changes, a list of all created/modified files, and the core "why" for the change.
    - Example:
@@ -57,7 +71,7 @@ All tasks follow a strict lifecycle:
      Why: Provides the foundational layout for user interaction.
      ```
 
-9. **Record Task Completion in Plan:**
+11. **Record Task Completion in Plan:**
    - Read `plan.md`, find the line for the completed task, and update its status from `[~]` to `[x]`.
    - Write the updated content back to `plan.md`.
 

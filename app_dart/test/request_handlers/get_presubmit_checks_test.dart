@@ -28,11 +28,7 @@ void main() {
       config = FakeConfig();
       tester = RequestHandlerTester();
       firestoreService = FakeFirestoreService();
-      handler = GetPresubmitChecks(
-        config: config,
-        firestore: firestoreService,
-        authenticationProvider: FakeDashboardAuthentication(),
-      );
+      handler = GetPresubmitChecks(config: config, firestore: firestoreService);
     });
 
     Future<List<PresubmitCheckResponse>?> getPresubmitCheckResponse(
@@ -134,6 +130,26 @@ void main() {
       expect(checks.length, 2);
       expect(checks[0].attemptNumber, 2);
       expect(checks[1].attemptNumber, 1);
+    });
+
+    test('is accessible without authentication', () async {
+      final check = fs.PresubmitCheck(
+        checkRunId: 123,
+        buildName: 'linux',
+        status: TaskStatus.succeeded,
+        attemptNumber: 1,
+        creationTime: 100,
+      );
+      await firestoreService.writeViaTransaction(
+        documentsToWrites([check], exists: false),
+      );
+
+      tester.request = FakeHttpRequest(
+        queryParametersValue: {'check_run_id': '123', 'build_name': 'linux'},
+      );
+      // No auth context set on tester
+      final response = await tester.get(handler);
+      expect(response.statusCode, HttpStatus.ok);
     });
   });
 }

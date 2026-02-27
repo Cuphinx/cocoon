@@ -30,6 +30,7 @@ void main() {
 
       service = AppEngineCocoonService(
         client: MockClient((Request request) async {
+          expect(request.url.path, '/api/public/get-presubmit-guard');
           return Response(jsonEncode(guardData), 200);
         }),
       );
@@ -74,6 +75,7 @@ void main() {
 
       service = AppEngineCocoonService(
         client: MockClient((Request request) async {
+          expect(request.url.path, '/api/public/get-presubmit-checks');
           return Response(jsonEncode(checkData), 200);
         }),
       );
@@ -86,6 +88,36 @@ void main() {
       expect(response.error, isNull);
       expect(response.data!.length, 1);
       expect(response.data!.first.buildName, 'test1');
+    });
+  });
+
+  group('AppEngine CocoonService fetchPresubmitGuardSummaries', () {
+    late AppEngineCocoonService service;
+
+    test('should return expected List<PresubmitGuardSummary>', () async {
+      final summaryData = [
+        {
+          'commit_sha': 'sha1',
+          'creation_time': 123456789,
+          'guard_status': 'Succeeded',
+        },
+      ];
+
+      service = AppEngineCocoonService(
+        client: MockClient((Request request) async {
+          expect(request.url.path, '/api/public/get-presubmit-guard-summaries');
+          return Response(jsonEncode(summaryData), 200);
+        }),
+      );
+
+      final response = await service.fetchPresubmitGuardSummaries(
+        repo: 'flutter',
+        pr: '123',
+      );
+
+      expect(response.error, isNull);
+      expect(response.data!.length, 1);
+      expect(response.data!.first.commitSha, 'sha1');
     });
   });
 }

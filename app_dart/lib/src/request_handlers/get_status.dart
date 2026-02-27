@@ -11,9 +11,10 @@ import 'package:meta/meta.dart';
 
 import '../../cocoon_service.dart';
 import '../model/firestore/commit.dart';
+import '../request_handling/public_api_request_handler.dart';
 import '../service/build_status_service.dart';
 
-final class GetStatus extends RequestHandler {
+final class GetStatus extends PublicApiRequestHandler {
   const GetStatus({
     required super.config,
     required BuildStatusService buildStatusService,

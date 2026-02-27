@@ -186,19 +186,16 @@ Server createServer({
     ///      }
     ///    ]
     ///  }
-    '/api/get-presubmit-guard': GetPresubmitGuard(
+    '/api/public/get-presubmit-guard': GetPresubmitGuard(
       config: config,
-      authenticationProvider: authProvider,
       firestore: firestore,
     ),
-    '/api/get-presubmit-guard-summaries': GetPresubmitGuardSummaries(
+    '/api/public/get-presubmit-guard-summaries': GetPresubmitGuardSummaries(
       config: config,
-      authenticationProvider: authProvider,
       firestore: firestore,
     ),
-    '/api/get-presubmit-checks': GetPresubmitChecks(
+    '/api/public/get-presubmit-checks': GetPresubmitChecks(
       config: config,
-      authenticationProvider: authProvider,
       firestore: firestore,
     ),
     '/api/update-suppressed-test': UpdateSuppressedTest(

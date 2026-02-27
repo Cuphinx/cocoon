@@ -11,7 +11,7 @@ import 'package:github/github.dart';
 import 'package:meta/meta.dart';
 
 import '../../cocoon_service.dart';
-import '../request_handling/api_request_handler.dart';
+import '../request_handling/public_api_request_handler.dart';
 import '../service/firestore/unified_check_run.dart';
 
 /// Request handler for retrieving the aggregated presubmit guard status.
@@ -20,11 +20,10 @@ import '../service/firestore/unified_check_run.dart';
 /// returns an aggregated response including the overall guard status and
 /// individual stage statuses.
 @immutable
-final class GetPresubmitGuard extends ApiRequestHandler {
+final class GetPresubmitGuard extends PublicApiRequestHandler {
   /// Defines the [GetPresubmitGuard] handler.
   const GetPresubmitGuard({
     required super.config,
-    required super.authenticationProvider,
     required FirestoreService firestore,
   }) : _firestore = firestore;
 

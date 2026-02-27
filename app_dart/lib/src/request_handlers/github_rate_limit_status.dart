@@ -8,6 +8,7 @@ import 'package:cocoon_server/logging.dart';
 import 'package:meta/meta.dart';
 
 import '../foundation/utils.dart';
+import '../request_handling/public_api_request_handler.dart';
 import '../request_handling/request_handler.dart';
 import '../request_handling/response.dart';
 import '../service/big_query.dart';
@@ -24,7 +25,7 @@ import '../service/big_query.dart';
 ///   `limit`: Total API calls allowed on flutter-dashboard.
 ///   `remaining`: Total number of API calls remaining before flutter-dashboard is blocked from sending further requests.
 ///   `resets`: [DateTime] when [remaining] will reset back to [limit].
-final class GithubRateLimitStatus extends RequestHandler {
+final class GithubRateLimitStatus extends PublicApiRequestHandler {
   const GithubRateLimitStatus({
     required super.config,
     required BigQueryService bigQuery,

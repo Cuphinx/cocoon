@@ -47,7 +47,6 @@ void main() {
     tester = RequestHandlerTester();
     handler = GetPresubmitGuardSummaries(
       config: FakeConfig(),
-      authenticationProvider: FakeDashboardAuthentication(),
       firestore: firestore,
     );
   });
@@ -125,5 +124,30 @@ void main() {
     final item2 = result.firstWhere((g) => g.commitSha == 'sha2');
     expect(item2.creationTime, 200);
     expect(item2.guardStatus, GuardStatus.failed);
+  });
+
+  test('is accessible without authentication', () async {
+    final slug = RepositorySlug('flutter', 'flutter');
+    const prNumber = 123;
+
+    final guard = generatePresubmitGuard(
+      slug: slug,
+      pullRequestId: prNumber,
+      commitSha: 'sha1',
+      checkRun: generateCheckRun(1),
+      creationTime: 100,
+    );
+
+    firestore.putDocuments([guard]);
+
+    tester.request = FakeHttpRequest(
+      queryParametersValue: {
+        GetPresubmitGuardSummaries.kRepoParam: 'flutter',
+        GetPresubmitGuardSummaries.kPRParam: prNumber.toString(),
+      },
+    );
+
+    final response = await tester.get(handler);
+    expect(response.statusCode, HttpStatus.ok);
   });
 }

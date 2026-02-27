@@ -298,7 +298,7 @@ class AppEngineCocoonService implements CocoonService {
       'sha': sha,
     };
     final getGuardUrl = apiEndpoint(
-      '/api/get-presubmit-guard',
+      '/api/public/get-presubmit-guard',
       queryParameters: queryParameters,
     );
 
@@ -306,7 +306,7 @@ class AppEngineCocoonService implements CocoonService {
 
     if (response.statusCode != HttpStatus.ok) {
       return CocoonResponse.error(
-        '/api/get-presubmit-guard returned ${response.statusCode}',
+        '/api/public/get-presubmit-guard returned ${response.statusCode}',
         statusCode: response.statusCode,
       );
     }
@@ -336,7 +336,7 @@ class AppEngineCocoonService implements CocoonService {
       'build_name': buildName,
     };
     final getChecksUrl = apiEndpoint(
-      '/api/get-presubmit-checks',
+      '/api/public/get-presubmit-checks',
       queryParameters: queryParameters,
     );
 
@@ -344,7 +344,7 @@ class AppEngineCocoonService implements CocoonService {
 
     if (response.statusCode != HttpStatus.ok) {
       return CocoonResponse.error(
-        '/api/get-presubmit-checks returned ${response.statusCode}',
+        '/api/public/get-presubmit-checks returned ${response.statusCode}',
         statusCode: response.statusCode,
       );
     }
@@ -373,7 +373,7 @@ class AppEngineCocoonService implements CocoonService {
   }) async {
     final queryParameters = <String, String?>{'repo': repo, 'pr': pr};
     final getSummariesUrl = apiEndpoint(
-      '/api/get-presubmit-guard-summaries',
+      '/api/public/get-presubmit-guard-summaries',
       queryParameters: queryParameters,
     );
 
@@ -381,7 +381,7 @@ class AppEngineCocoonService implements CocoonService {
 
     if (response.statusCode != HttpStatus.ok) {
       return CocoonResponse.error(
-        '/api/get-presubmit-guard-summaries returned ${response.statusCode}',
+        '/api/public/get-presubmit-guard-summaries returned ${response.statusCode}',
         statusCode: response.statusCode,
       );
     }

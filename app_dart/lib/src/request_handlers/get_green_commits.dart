@@ -8,6 +8,7 @@ import 'package:cocoon_common/task_status.dart';
 import 'package:github/github.dart';
 import 'package:meta/meta.dart';
 
+import '../request_handling/public_api_request_handler.dart';
 import '../request_handling/request_handler.dart';
 import '../request_handling/response.dart';
 import '../service/build_status_provider/commit_tasks_status.dart';
@@ -30,7 +31,7 @@ import '../service/config.dart';
 ///
 /// GET: /api/public/get-green-commits?repo=$repo
 
-final class GetGreenCommits extends RequestHandler {
+final class GetGreenCommits extends PublicApiRequestHandler {
   const GetGreenCommits({
     required super.config,
     required BuildStatusService buildStatusService,

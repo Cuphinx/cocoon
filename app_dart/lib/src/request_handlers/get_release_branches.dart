@@ -4,6 +4,7 @@
 
 import 'dart:async';
 
+import '../request_handling/public_api_request_handler.dart';
 import '../request_handling/request_handler.dart';
 import '../request_handling/response.dart';
 import '../service/branch_service.dart';
@@ -29,7 +30,7 @@ import '../service/config.dart';
 ///    }
 ///]
 
-final class GetReleaseBranches extends RequestHandler {
+final class GetReleaseBranches extends PublicApiRequestHandler {
   GetReleaseBranches({
     required super.config,
     required BranchService branchService,

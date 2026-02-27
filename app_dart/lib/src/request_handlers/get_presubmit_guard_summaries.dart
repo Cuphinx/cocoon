@@ -13,7 +13,7 @@ import 'package:meta/meta.dart';
 
 import '../../cocoon_service.dart';
 import '../model/firestore/presubmit_guard.dart';
-import '../request_handling/api_request_handler.dart';
+import '../request_handling/public_api_request_handler.dart';
 import '../service/firestore/unified_check_run.dart';
 
 /// Request handler for retrieving all presubmit guards for a specific pull request.
@@ -25,11 +25,10 @@ import '../service/firestore/unified_check_run.dart';
 ///   pr: (int in query) required. The pull request number.
 ///   owner: (string in query) optional. The repository owner (e.g., 'flutter').
 @immutable
-final class GetPresubmitGuardSummaries extends ApiRequestHandler {
+final class GetPresubmitGuardSummaries extends PublicApiRequestHandler {
   /// Defines the [GetPresubmitGuardSummaries] handler.
   const GetPresubmitGuardSummaries({
     required super.config,
-    required super.authenticationProvider,
     required FirestoreService firestore,
   }) : _firestore = firestore;
 
