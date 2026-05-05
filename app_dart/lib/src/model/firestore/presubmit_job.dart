@@ -104,12 +104,14 @@ final class PresubmitJob extends AppDocument<PresubmitJob> {
   static const fieldSlug = 'slug';
   static const fieldJobName = 'job_name';
   static const fieldBuildNumber = 'build_number';
+  static const fieldBuildId = 'build_id';
   static const fieldStatus = 'status';
   static const fieldAttemptNumber = 'attempt_number';
   static const fieldCreationTime = 'creation_time';
   static const fieldStartTime = 'start_time';
   static const fieldEndTime = 'end_time';
   static const fieldSummary = 'summary';
+  static const fieldLogAnalysis = 'log_analysis';
 
   static AppDocumentId<PresubmitJob> documentIdFor({
     required RepositorySlug slug,
@@ -168,9 +170,11 @@ final class PresubmitJob extends AppDocument<PresubmitJob> {
     required int attemptNumber,
     required int creationTime,
     int? buildNumber,
+    int? buildId,
     int? startTime,
     int? endTime,
     String? summary,
+    String? logAnalysis,
   }) {
     return PresubmitJob._(
       {
@@ -178,12 +182,14 @@ final class PresubmitJob extends AppDocument<PresubmitJob> {
         fieldCheckRunId: checkRunId.toValue(),
         fieldJobName: jobName.toValue(),
         fieldBuildNumber: ?buildNumber?.toValue(),
+        fieldBuildId: ?buildId?.toValue(),
         fieldStatus: status.value.toValue(),
         fieldAttemptNumber: attemptNumber.toValue(),
         fieldCreationTime: creationTime.toValue(),
         fieldStartTime: ?startTime?.toValue(),
         fieldEndTime: ?endTime?.toValue(),
         fieldSummary: ?summary?.toValue(),
+        fieldLogAnalysis: ?logAnalysis?.toValue(),
       },
       name: documentNameFor(
         slug: slug,
@@ -213,9 +219,11 @@ final class PresubmitJob extends AppDocument<PresubmitJob> {
       creationTime: creationTime,
       status: TaskStatus.waitingForBackfill,
       buildNumber: null,
+      buildId: null,
       startTime: null,
       endTime: null,
       summary: null,
+      logAnalysis: null,
     );
   }
 
@@ -240,6 +248,9 @@ final class PresubmitJob extends AppDocument<PresubmitJob> {
   int? get buildNumber => fields[fieldBuildNumber] != null
       ? int.parse(fields[fieldBuildNumber]!.integerValue!)
       : null;
+  int? get buildId => fields[fieldBuildId] != null
+      ? int.parse(fields[fieldBuildId]!.integerValue!)
+      : null;
   int? get startTime => fields[fieldStartTime] != null
       ? int.parse(fields[fieldStartTime]!.integerValue!)
       : null;
@@ -247,6 +258,7 @@ final class PresubmitJob extends AppDocument<PresubmitJob> {
       ? int.parse(fields[fieldEndTime]!.integerValue!)
       : null;
   String? get summary => fields[fieldSummary]?.stringValue;
+  String? get logAnalysis => fields[fieldLogAnalysis]?.stringValue;
 
   TaskStatus get status {
     final rawValue = fields[fieldStatus]!.stringValue!;
@@ -273,6 +285,14 @@ final class PresubmitJob extends AppDocument<PresubmitJob> {
     }
   }
 
+  set buildId(int? buildId) {
+    if (buildId == null) {
+      fields.remove(fieldBuildId);
+    } else {
+      fields[fieldBuildId] = buildId.toValue();
+    }
+  }
+
   set summary(String? summary) {
     if (summary == null) {
       fields.remove(fieldSummary);
@@ -281,8 +301,17 @@ final class PresubmitJob extends AppDocument<PresubmitJob> {
     }
   }
 
+  set logAnalysis(String? logAnalysis) {
+    if (logAnalysis == null) {
+      fields.remove(fieldLogAnalysis);
+    } else {
+      fields[fieldLogAnalysis] = logAnalysis.toValue();
+    }
+  }
+
   void updateFromBuild(bbv2.Build build) {
     fields[fieldBuildNumber] = build.number.toValue();
+    fields[fieldBuildId] = Value(integerValue: build.id.toString());
     fields[fieldCreationTime] = build.createTime
         .toDateTime()
         .millisecondsSinceEpoch
